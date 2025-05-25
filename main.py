@@ -1,18 +1,18 @@
 from mis_funciones import *
 
 nombres = [
-            "Leslie Lopez", "Bruno Diaz", "Carla Gómez", "Diego Torres", "Elena Vega",
+            "Leslie Lopez", "Luciano Cabral", "Carla Gómez", "Diego Torres", "Elena Vega",
             "Francisco Ruiz", "Gabriela Mendez", "Hugo Silva", "Irene Ríos", "Joaquin Perez",
-            "Karina Sosa", "Luis Ortega", "Marta Funes", "Nicolas Castro", "Olga Herrera",
+            "Karina Sosa", "Luis Ortega", "Marta Funes", "Alvaro Angulo", "Olga Herrera",
             "Pablo Varela", "Quintina Gil", "Raul Vazquez", "Sofia Moreno", "Tomas Gimenez",
-            "Ursula Peña", "Valeria Cruz", "Walter Álvarez", "Ximena Luna", "Alex Salas",
-            "Zoe Molina", "Ariel Bracco", "Beatriz Soto", "Cesar Pineda", "Daniela Juárez"
+            "Ursula Peña", "Valeria Cruz", "Walter Álvarez", "Ximena Luna", "Ricardo Enrique Bochini",
+            "Zoe Molina", "Kevin Lomonaco", "Beatriz Soto", "Julio Vaccari", "Daniela Juárez"
         ]
 
 generos = [
             "X", "M", "F", "M", "F", "M", "F", "M", "F", "M",
             "F", "M", "F", "M", "F", "M", "F", "M", "F", "M",
-            "F", "F", "M", "F", "X", "F", "M", "F", "M", "F"
+            "F", "F", "M", "F", "M", "F", "M", "F", "M", "F"
         ]
 
 legajos = [
@@ -33,44 +33,76 @@ notas = [
 
 promedios = []
 
+datos_cargados = False
 
 while True:
-    print("\nMENÚ DE OPCIONES")
-    print("1 – Mostrar todos los datos")
-    print("2 – Calcular promedio por estudiante")
-    print("3 – Ordenar por promedio")
-    print("4 – Materia con mayor promedio")
-    print("5 – Buscar estudiante por legajo")
-    print("6 – Salir")
-
-    opcion = input("Ingrese una opción: ")
-
+    
+    opcion= mostrar_menu("\nMENÚ DE OPCIONES" "\n1 – Cagar los datos" "\n2 – Mostrar todos los datos" "\n3 – Calcular promedio por estudiante" "\n4 – Ordenar por promedio" "\n5 – Materia con mayor promedio" "\n6 – Buscar estudiante por legajo" "\n7 - Contar repeticiones de calificaciones por materia"  "\n8 – Salir")
+   
     match opcion:
-        case "1":
-            mostrar_todos(notas, nombres, generos, legajos, promedios)
-        case "2":
-            promedios = calcular_promedios(notas)
-            print("Promedios calculados.")
-        case "3":
-            if len(promedios) > 0:
-                ordenar_por_promedio(notas, nombres, generos, legajos, promedios, "DESC")
+        case 1:
+            datos_cargados = True
+            print("Datos cargados exitosamente.")
+            
+        case 2:
+            if datos_cargados:
                 mostrar_todos(notas, nombres, generos, legajos, promedios)
             else:
-                print("Primero debe calcular los promedios.")
-        case "4":
-            print(materia_mayor_promedio(notas))
-        case "5":
-            if len(promedios) > 0:
-                legajo_buscar = input("Ingrese el legajo a buscar: ")
-                if validar_legajo(legajo_buscar):
-                    legajo_buscar = int(legajo_buscar)
-                    buscar_estudiante(notas, nombres, generos, legajos, promedios, legajo_buscar)
-                else:
-                    print("Legajo inválido.")
+                print("Debe cargar los datos primero (opción 1).")
+
+        case 3:
+            if datos_cargados:
+                promedios = calcular_promedios(notas)
+                print("Promedios calculados.")
             else:
-                print("Primero debe calcular los promedios.")
-        case "6":
+                print("Debe cargar los datos primero (opción 1).")
+
+        case 4:
+            if datos_cargados:
+                if len(promedios) > 0:
+                    ordenar_por_promedio(notas, nombres, generos, legajos, promedios, "DESC")
+                    mostrar_todos(notas, nombres, generos, legajos, promedios)
+                else:
+                    print("Primero debe calcular los promedios.")
+            else:
+                print("Debe cargar los datos primero (opción 1).")
+
+        case 5:
+            if datos_cargados:
+                print(materia_mayor_promedio(notas))
+            else:
+                print("Debe cargar los datos primero (opción 1).")
+
+        case 6:
+            if datos_cargados:
+                if len(promedios) > 0:
+                    legajo_buscar = input("Ingrese el legajo a buscar: ")
+                    if validar_legajo(legajo_buscar):
+                        legajo_buscar = int(legajo_buscar)
+                        buscar_estudiante(notas, nombres, generos, legajos, promedios, legajo_buscar)
+                    else:
+                        print("Legajo inválido.")
+                else:
+                    print("Primero debe calcular los promedios.")
+            else:
+                print("Debe cargar los datos primero (opción 1).")
+
+        case 7:
+            if datos_cargados:
+                materia = input("Ingrese el número de materia (1 a 5): ")
+                while materia not in ["1", "2", "3", "4", "5"]:
+                    materia = input("Número inválido. Ingrese un número entre 1 y 5: ")
+                materia = int(materia) - 1
+                repeticiones = contar_notas_por_materia(notas, materia)
+                print(f"Repeticiones de cada nota en la materia {materia + 1}:")
+                for i in range(10):
+                    print(f"Nota {i + 1}: {repeticiones[i]} vez/veces")
+            else:
+                print("Debe cargar los datos primero (opción 1).")
+
+        case 8:
             print("Fin del programa.")
             break
+
         case _:
             print("Opción no válida.")
