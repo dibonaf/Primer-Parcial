@@ -1,4 +1,26 @@
-def validar_legajo(legajo):
+def mostrar_menu(opciones):
+    '''
+Es la funcion que me permite realizar un menu de opciones.
+    '''  
+    print(opciones)
+    opcion=int(input("Ingrese una opción: "))
+   
+    return opcion
+
+def validar_nota(nota):
+    '''
+    Valida que la nota esté entre 1 y 10 (como string).
+    '''
+    es_valida = False
+
+    if len(nota) == 1 and nota >= "1" and nota <= "9":
+        es_valida = True
+    elif len(nota) == 2 and nota == "10":
+        es_valida = True
+
+    return es_valida
+
+def validar_legajo(legajo)-> None:
     '''
 Valida que el legajo tenga 5 cifras numéricas.
     '''
@@ -14,7 +36,7 @@ Valida que el legajo tenga 5 cifras numéricas.
     return es_valido
 
 
-def mostrar_uno(nota, nombre, genero, legajo, promedio):
+def mostrar_uno(nota, nombre, genero, legajo, promedio)-> None:
     '''
 Devuelve una cadena con los datos de un solo estudiante.
     '''
@@ -116,3 +138,12 @@ Buscar estudiante por legajo
             break
         i = i + 1
     return print(resultado)
+
+def contar_notas_por_materia(matriz, indice_materia):
+
+    repeticiones = [0] * 10  # índices 0 a 9 representan notas 1 a 10
+    for fila in matriz:
+        nota = fila[indice_materia]
+        if nota >= 1 and nota <= 10:
+            repeticiones[nota - 1] += 1
+    return repeticiones
