@@ -10,7 +10,7 @@ nombres = [
         ]
 
 generos = [
-            "X", "M", "F", "M", "F", "M", "F", "M", "F", "M",
+            "X", "M", "F", "M", "X", "M", "F", "M", "F", "M",
             "F", "M", "F", "M", "F", "M", "F", "M", "F", "M",
             "F", "F", "M", "F", "M", "F", "M", "F", "M", "F"
         ]
@@ -69,7 +69,10 @@ while True:
 
         case 5:
             if datos_cargados:
-                print(materia_mayor_promedio(notas))
+                if len(promedios) > 0:                
+                    print(materia_mayor_promedio(notas))
+                else:
+                    print("Primero debe calcular los promedios.")    
             else:
                 print("Debe cargar los datos primero (opción 1).")
 
@@ -90,8 +93,12 @@ while True:
         case 7:
             if datos_cargados:
                 materia = input("Ingrese el número de materia (1 a 5): ")
-                while materia not in ["1", "2", "3", "4", "5"]:
-                    materia = input("Número inválido. Ingrese un número entre 1 y 5: ")
+                es_valido = False
+                while es_valido == False:
+                    if materia in ["1", "2", "3", "4", "5"]:
+                        es_valido = True
+                    else:
+                        materia = input("Número inválido. Ingrese un número entre 1 y 5: ")
                 materia = int(materia) - 1
                 repeticiones = contar_notas_por_materia(notas, materia)
                 print(f"Repeticiones de cada nota en la materia {materia + 1}:")
